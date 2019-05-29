@@ -6,13 +6,6 @@ export class SortTwoArray extends Component {
     constructor(props) {
         super(props)
 
-        this.state = {
-            firstArray: [1, 2, 4, 5],
-            secondArray: [2, 3, 4, 7, 8],
-            actions: [],
-            step: 0
-        }
-
         this.row = {
             "first": 1,
             "second": 2,
@@ -31,6 +24,9 @@ export class SortTwoArray extends Component {
         this.visulizeStep = this.visulizeStep.bind(this);
         this.moveTo = this.moveTo.bind(this);
         this.compare = this.compare.bind(this);
+        this.generateRandomArray = this.generateRandomArray.bind(this);
+        this.visulizeArray = this.visulizeArray.bind(this);
+        this.clearArray = this.clearArray.bind(this);
 
         this.svg = null;
 
@@ -49,6 +45,19 @@ export class SortTwoArray extends Component {
         this.padding = 0.05;
 
         this.arrayItem = null;
+        this.initialFirstArray = [1, 2, 4, 5]
+        this.initialSecondArray = [2, 3, 4, 7, 8]
+        this.initialActions = this.getSteps(this.initialFirstArray, this.initialSecondArray)
+
+        this.state = {
+            firstArray: this.initialFirstArray,
+            secondArray: this.initialSecondArray,
+            actions: this.initialActions,
+            step: 0,
+            setNewArrays: false,
+            animation: false,
+        }
+
     }
 
     getX(x) {
@@ -60,12 +69,46 @@ export class SortTwoArray extends Component {
     }
 
     componentDidMount() {
-        this.getSteps(this.firstArray, this.secondArray);
+        let actions = this.getSteps(this.state.firstArray, this.state.secondArray);
+
+        this.setState({
+            actions: actions
+        })
+
         this.svgInitialize();
     }
 
-    componentDidUpdate() {
-        this.visulizeStep();
+    componentWillUnmount() { 
+        clearInterval(this.interval); 
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        let update1 = this.state.step + 1 === nextState.step;
+        let update2 = nextState.setNewArrays;
+        let update3 = nextState.animation !== this.state.animation
+        let update4 = nextState.animation 
+
+        return update1 || update2 || update3 || update4
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (this.state.step !== prevState.step && !this.state.setNewArrays) {
+            this.visulizeStep();
+        } 
+        
+        if (this.state.setNewArrays) {
+            this.clearArray(1)
+            this.clearArray(2)
+
+            this.visulizeArray(1)
+            this.visulizeArray(2)
+        
+        
+            this.setState({
+                setNewArrays: false
+            })
+        }
+        
     }
 
     visulizeStep() {
@@ -83,7 +126,6 @@ export class SortTwoArray extends Component {
             } else if (actionName === "Compare") {
                 this.compare(id, actionList[2])
             } 
-            console.log(action)
         }
     }
 
@@ -117,23 +159,41 @@ export class SortTwoArray extends Component {
         this.appendTag(4, 3.4, "Compare")
         this.appendTag(6, 2.4, "Result")
 
-        for (let i = 0; i < this.state.firstArray.length; i++) {
-            let num = this.state.firstArray[i];
-            this.visulizeBox(1, (3 + i + 1), 1, 1, num, "ID1-" + i, "gray", "white");
-        }
+        this.visulizeArray(1);
+        this.visulizeArray(2);
+    }
 
-        for (let i = 0; i < this.state.secondArray.length; i++) {
-            let num = this.state.secondArray[i];
-            this.visulizeBox(2, (3 + i + 1), 1, 1, num, "ID2-" + i, "gray", "white");
+    clearArray(order) {
+        for (let i = 0; i < 5; i++) {
+            let id = "ID" + order + "-" + i;
+            d3.selectAll("#" + id).remove();
         }
     }
 
+    visulizeArray(order) {
+        let target = null;
+        if (order === 1) {
+            target = this.state.firstArray;
+        } else if (order === 2) {
+            target = this.state.secondArray;
+        }
+        for (let i = 0; i < target.length; i++) {
+            let num = target[i];
+            this.visulizeBox(order, (3 + i + 1), 1, 1, num, "ID" + order + "-" + i, "gray", "white");
+        }
+    }
+
+
     select(id) {
-        d3.select("#" + id + " > rect").transition().duration(500).attr("fill", "green")
+        d3.select("#" + id + " > rect").transition().duration(500).attr("fill", "blue")
     }
 
     deselect(id) {
         d3.select("#" + id + " > rect").transition().duration(500).attr("fill", "gray")
+    }
+
+    sorted(id) {
+        d3.select("#" + id + " > rect").transition().duration(500).attr("fill", "green")
     }
 
     moveTo(id, place) {
@@ -146,6 +206,10 @@ export class SortTwoArray extends Component {
 
         d3.select("#" + id).transition().duration(500)
             .attr("transform", "translate(" + this.getX(newX) + ", " + this.getY(newY) + ")")
+        
+        if (nRow === this.row["result"]) {
+            this.sorted(id);
+        }
     }
 
     compare(id1, id2) {
@@ -207,8 +271,17 @@ export class SortTwoArray extends Component {
                     .text(text)
     }
 
+    generateRandomArray() {
+        let length = Math.floor(Math.random() * 2 + 3)
+        let newArray = []
+        for (let i = 0; i < length; i++) {
+            newArray[i] = Math.floor(Math.random() * 20)
+        }
+        return(newArray.sort((a, b) => {return a - b}));
+    }
 
-    getSteps() {
+
+    getSteps(array1, array2) {
         let result = [];
         let newAction = ["start"]
 
@@ -216,16 +289,16 @@ export class SortTwoArray extends Component {
         let j = 0;
 
 
-        while(i < this.state.firstArray.length && j < this.state.secondArray.length) {
+        while(i < array1.length && j < array2.length) {
 
             let num1ID = "ID" + 1 + "-" + i;
-            let num1 = this.state.firstArray[i];
+            let num1 = array1[i];
 
             newAction.push("Select " + num1ID)
             newAction.push("Move " + num1ID + " compare-1")
 
             let num2ID = "ID" + 2 + "-" + j;
-            let num2 = this.state.secondArray[j];
+            let num2 = array2[j];
             newAction.push("Deselect " + num1ID)
             newAction.push("Select " + num2ID)
             newAction.push("Move " + num2ID + " compare-2")
@@ -236,56 +309,96 @@ export class SortTwoArray extends Component {
 
             if (num1 < num2) {
                 result.push(num1);
-                newAction.push("Select " + num1ID)
+                newAction.push("Deselect " + num2ID)
                 newAction.push("Move " + num1ID + " result-" + (result.length))
                 i++;
-                newAction.push("Deselect " + num1ID)
                 newAction.push("Select " + num2ID)
                 newAction.push("Move " + num2ID + " second-1")
                 newAction.push("Deselect " + num2ID)
             } else {
                 result.push(num2);
-                newAction.push("Select " + num2ID)
+                newAction.push("Deselect " + num1ID)
                 newAction.push("Move " + num2ID + " result-" + result.length)
                 j++;
-                newAction.push("Deselect " + num2ID)
                 newAction.push("Select " + num1ID)
                 newAction.push("Move " + num1ID + " first-1")
                 newAction.push("Deselect " + num1ID)
             }
         }
 
-        while(i < this.state.firstArray.length) {
-            result.push(this.state.firstArray[i])
+        while(i < array1.length) {
+            result.push(array1[i])
             let num1ID = "ID" + 1 + "-" + i;
             newAction.push("Select " + num1ID)
             newAction.push("Move " + num1ID + " result-" + result.length)
-            newAction.push("Deselect " + num1ID)
             i++;
         }
 
-        while(j < this.state.secondArray.length) {
-            result.push(this.state.secondArray[j])
+        while(j < array2.length) {
+            result.push(array2[j])
             let num2ID = "ID" + 2 + "-" + j;
             newAction.push("Select " + num2ID)
             newAction.push("Move " + num2ID +" result-" + result.length)
-            newAction.push("Deselect " + num2ID)
             j++;
         }
 
-        this.setState({
-            actions: newAction
-        })
+        return(newAction)
     }
 
     render() {
+        let display = "Action: ";
+        let action = this.state.actions[this.state.step]
+        if (action) {
+            display += action
+        } else {
+            display += "Sort Finished"
+        }
+
+        let animationSign = "Animation"
+        if (this.state.animation) {
+            animationSign = "Stop"
+        }
+
         return(
             <div>
+                <div>{display}</div>
                 <button onClick={() => {
                     this.setState({
                         step: this.state.step + 1
                     })
                 }} >Next</button>
+
+                <button onClick={() => {
+                    let array1 = this.generateRandomArray()
+                    let array2 = this.generateRandomArray()
+                    let newActions = this.getSteps(array1, array2)
+                    this.setState({
+                        setNewArrays: true,
+                        firstArray: array1,
+                        secondArray: array2,
+                        actions: newActions,
+                        step:0
+                    })
+                }} >New Arrays</button>
+
+                <button onClick={() => {
+
+                    if (!this.state.animation) {
+                        this.setState({
+                            animation: window.setInterval(() => {
+                                this.setState({
+                                    step: this.state.step + 1
+                                })    
+                            }, 700)
+                        })
+                    } else {
+                        window.clearInterval(this.state.animation);
+                        this.setState({
+                            animation: null
+                        })
+                    }
+                    
+                }}>{animationSign}</button>
             </div>
         )
     }
