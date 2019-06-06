@@ -1,12 +1,18 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import {SortTwoArray} from './Components/SortTwoArray'
+import {SelectionSort} from './Components/SelectionSort'
+import {Insertion} from './Components/Insertion'
+import {MergeSortBasic} from './Components/MergeSortBasic'
+import {MergeSort} from './Components/MergeSort'
+
 
 function App() {
   return (
     <div className="App">
-      <SortTwoArray />
+      <MergeSort />
+      <Insertion />
+      <SelectionSort />
+      <MergeSortBasic />
     </div>
   );
 }
