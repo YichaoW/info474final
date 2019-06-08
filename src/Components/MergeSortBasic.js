@@ -329,14 +329,14 @@ export class MergeSortBasic extends GridStructure {
                                 step: this.state.step - 1
                             })
                         }
-                    }}>Prev</button>
+                    }} disabled={this.state.step === 0 || this.state.animation}>Prev</button>
                     <button onClick={() => {
                         if (this.state.step < this.state.actions.length - 1) {
                             this.setState({
                                 step: this.state.step + 1
                             })
                         }
-                    }} >Next</button>
+                    }} disabled={this.state.step === this.state.actions.length - 1 || this.state.animation}>Next</button>
 
                     <button onClick={() => {
                         let newArray1 = this.generateRandomArray(4, 5);
@@ -357,29 +357,43 @@ export class MergeSortBasic extends GridStructure {
                             step: 0,
                             setNewArray: true
                         })
-                    }}>New Array</button>
+                    }} disabled={this.state.animation}>New Array</button>
 
                     <button onClick={() => {
                         if (!this.state.animation) {
-                            this.setState({
-                                animation: window.setInterval(() => {
-                                    if (this.state.step < this.state.actions.length - 1) {
-                                        this.setState({
-                                            step: this.state.step + 1
-                                        })   
-                                    } else {
-                                        window.clearInterval(this.state.animation);
-                                        this.setState({
-                                            animation: false
-                                        })
-                                    }
-                                }, 800)
-                            })
+                            let animationStep = () => {
+                                this.setState({
+                                    animation: window.setInterval(() => {
+                                        if (this.state.step < this.state.actions.length - 1) {
+                                            this.setState({
+                                                step: this.state.step + 1
+                                            })   
+                                        } else {
+                                            window.clearInterval(this.state.animation);
+                                            this.setState({
+                                                animation: false
+                                            })
+                                        }
+                                    }, 800)
+                                })
+                            }
+
+                            if (this.state.step === this.state.actions.length - 1) {
+                                this.setState({
+                                    step: 0
+                                }, () => {
+                                    this.clearViz();
+                                    this.initViz();
+                                    animationStep();
+                                })
+                            } else {
+                                animationStep();
+                            }
                         } else {
-                            window.clearInterval(this.state.animation);
                             this.setState({
                                 animation: false
                             })
+                            window.clearInterval(this.state.animation);
                         }
                     }}>{animationSign}</button>
                 </div>

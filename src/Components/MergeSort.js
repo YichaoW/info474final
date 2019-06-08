@@ -44,7 +44,7 @@ export class MergeSort extends GridStructure {
         this.svg = this.getSVG();
         this.drawBasicStructure();
         this.drawHorizontalGrid();
-        this.drawMergeGrid();
+        //this.drawMergeGrid();
         this.initViz();
     }
 
@@ -79,6 +79,16 @@ export class MergeSort extends GridStructure {
         for (let i = 0; i < this.state.array.length; i++) {
             this.visulizeBox(1, i + this.arrayStartCol, 1, 1, this.state.array[i], "MergeSort-" + i, "gray", "white")
         }
+
+        let xPadding = 0.40
+        this.visulizeBox(2, 8, 1, 1, "", "Barriar-1", "#525252", "white", 0, xPadding, 0)
+        this.visulizeBox(3, 8, 1, 1, "", "Barriar-2", "#525252", "white", 0, xPadding, 0)
+        this.visulizeBox(3, 4, 1, 1, "", "Barriar-3", "#525252", "white", 0, xPadding, 0)
+        this.visulizeBox(3, 12, 1, 1, "", "Barriar-4", "#525252", "white", 0, xPadding, 0)
+        for (let i = 1; i <= 7; i++) {
+            this.visulizeBox(4, 2 * i, 1, 1, "", "Barriar-" + (4 + i), "#525252", "white", 0, xPadding, 0)
+        }
+
     }
 
     clearViz() {
@@ -353,14 +363,14 @@ export class MergeSort extends GridStructure {
                                 step: this.state.step - 1
                             })
                         }
-                    }}>Prev</button>
+                    }} disabled={this.state.step === 0 || this.state.animation}>Prev</button>
                     <button onClick={() => {
                         if (this.state.step < this.state.actions.length - 1) {
                             this.setState({
                                 step: this.state.step + 1
                             })
                         }
-                    }} >Next</button>
+                    }} disabled={this.state.step === this.state.actions.length - 1 || this.state.animation}>Next</button>
 
                     <button onClick={() => {
                         let newArray = this.generateRandomArray(8, 8);
@@ -372,24 +382,35 @@ export class MergeSort extends GridStructure {
                             step: 0,
                             setNewArray: true
                         })
-                    }}>New Array</button>
+                    }} disabled={this.state.animation}>New Array</button>
 
                     <button onClick={() => {
                         if (!this.state.animation) {
-                            this.setState({
-                                animation: window.setInterval(() => {
-                                    if (this.state.step < this.state.actions.length - 1) {
-                                        this.setState({
-                                            step: this.state.step + 1
-                                        })   
-                                    } else {
-                                        window.clearInterval(this.state.animation);
-                                        this.setState({
-                                            animation: false
-                                        })
-                                    }
-                                }, 700)
-                            })
+                            let animationStep = () => {
+                                this.setState({
+                                    animation: window.setInterval(() => {
+                                        if (this.state.step < this.state.actions.length - 1) {
+                                            this.setState({
+                                                step: this.state.step + 1
+                                            })   
+                                        } else {
+                                            window.clearInterval(this.state.animation);
+                                            this.setState({
+                                                animation: false
+                                            })
+                                        }
+                                }, 700)})}
+                            if (this.state.step === this.state.actions.length - 1) {
+                                this.setState({
+                                    step: 0
+                                }, () => {
+                                    this.clearViz();
+                                    this.initViz();
+                                    animationStep();
+                                })
+                            } else {
+                                animationStep();
+                            }
                         } else {
                             window.clearInterval(this.state.animation);
                             this.setState({

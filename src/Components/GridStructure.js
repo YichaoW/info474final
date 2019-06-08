@@ -191,22 +191,23 @@ export class GridStructure extends Component {
         }
     } 
 
-    visulizeBox(row, col, widthGrid, heightGrid, text, id, boxColor = "gray", textColor = "white") {
-        let width = (1 - 2 * this.padding) * this.gridWidth * widthGrid;
-        let height = (1 - 2 * this.padding) * this.gridHeight * heightGrid;
-        let x = (col - 1 + this.padding) * this.gridWidth;
-        let y = (row - 1 + this.padding) * this.gridHeight;
+    visulizeBox(row, col, widthGrid, heightGrid, text, id, boxColor = "gray", textColor = "white", 
+                    borderRadius = 5, xPadding = 0.05, yPadding = 0.05) {
+        let width = (1 - 2 * xPadding) * this.gridWidth * widthGrid;
+        let height = (1 - 2 * yPadding) * this.gridHeight * heightGrid;
+        let x = (col - 1 + xPadding) * this.gridWidth;
+        let y = (row - 1 + yPadding) * this.gridHeight;
 
         let rectGroup = this.svg.append("g")
             .attr("id", id)
             .attr("transform", "translate(" + this.getX(x) + ", " + this.getY(y) + ")")
 
-        let textX = (0.5 - this.padding) * this.gridWidth * widthGrid;
-        let textY = (0.5 - this.padding) * this.gridHeight * heightGrid; 
+        let textX = (0.5 - xPadding) * this.gridWidth * widthGrid;
+        let textY = (0.5 - yPadding) * this.gridHeight * heightGrid; 
         let textSize = 1 + "rem";
 
         rectGroup.append("rect")
-                .attr("rx", 5).attr("ry", 5)
+                .attr("rx", borderRadius).attr("ry", borderRadius)
                 .attr("width", width).attr("height", height).attr("fill", boxColor)
         
         rectGroup.append("text").attr("fill", textColor)

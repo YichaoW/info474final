@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import * as d3 from "d3";
 import {GridStructure} from './GridStructure'
+import { thisExpression } from '@babel/types';
 
 export class Insertion extends GridStructure {
     constructor(props) {
@@ -551,19 +552,21 @@ export class Insertion extends GridStructure {
         return(
             <div id="insertion">
                 <div>{this.state.actions[this.state.step].desc}</div>
-                <button onClick = {() => {
-                    this.setState({
-                        step: this.state.step + 1
-                    })
-                }}>Next</button>
-                
                 <button onClick={() => {
-                    if (this.state.step > 0) {
+                        if (this.state.step > 0) {
+                            this.setState({
+                                step: this.state.step - 1
+                            })
+                        }
+                }} disabled={this.state.step === 0 || this.state.animation}>Prev</button>
+
+                <button onClick={() => {
+                    if (this.state.step < this.state.actions.length - 1) {
                         this.setState({
-                            step: this.state.step - 1
+                            step: this.state.step + 1
                         })
                     }
-                }}>Prev</button>
+                }} disabled={this.state.step === this.state.actions.length - 1 || this.state.animation}>Next</button>
 
                 <button onClick={() => {
                     let newArray = this.generateRandomArray(5, 8);
@@ -574,24 +577,38 @@ export class Insertion extends GridStructure {
                          step: 0,
                          setNewArray: true
                     })
-                }}>New Array</button>
+                }} disabled={this.state.animation}>New Array</button>
 
                 <button onClick={() => {
                     if (!this.state.animation) {
-                        this.setState({
-                            animation: window.setInterval(() => {
-                                if (this.state.step < this.state.actions.length - 1) {
-                                    this.setState({
-                                        step: this.state.step + 1
-                                    })   
-                                } else {
-                                    window.clearInterval(this.state.animation);
-                                    this.setState({
-                                        animation: false
-                                    })
-                                }
-                            }, 1200)
-                        })
+                        let animationStep = () => {
+                            this.setState({
+                                animation: window.setInterval(() => {
+                                    if (this.state.step < this.state.actions.length - 1) {
+                                        this.setState({
+                                            step: this.state.step + 1
+                                        })   
+                                    } else {
+                                        window.clearInterval(this.state.animation);
+                                        this.setState({
+                                            animation: false
+                                        })
+                                    }
+                                }, 1200)
+                            })
+                        }
+                        
+                        if (this.state.step === this.state.actions.length - 1) {
+                            this.setState({
+                                step: 0
+                            }, () => {
+                                this.clearViz();
+                                this.initViz();
+                                animationStep();
+                            })
+                        } else {
+                            animationStep();
+                        }
                     } else {
                         window.clearInterval(this.state.animation);
                         this.setState({

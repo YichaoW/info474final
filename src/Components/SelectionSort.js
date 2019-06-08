@@ -314,20 +314,22 @@ export class SelectionSort extends GridStructure {
         return(
             <div id="selection">
                 <div>{actionDisplay}</div>
-                <button onClick={() => {
-                    if (this.state.step < this.state.actions.length - 1) {
-                        this.setState({
-                            step: this.state.step + 1
-                        })
-                    }
-                }} >Next</button>
+
                 <button onClick={() => {
                     if (this.state.step > 0) {
                         this.setState({
                             step: this.state.step - 1
                         })
                     }
-                }} >Prev</button>
+                }} disabled={this.state.step === 0 || this.state.animation}>Prev</button>
+
+                <button onClick={() => {
+                    if (this.state.step < this.state.actions.length - 1) {
+                        this.setState({
+                            step: this.state.step + 1
+                        })
+                    }
+                }} disabled={this.state.step === this.state.actions.length - 1 || this.state.animation}>Next</button>
 
                 <button onClick={() => {
                     let newArray = this.generateRandomArray(5, 8);
@@ -338,24 +340,38 @@ export class SelectionSort extends GridStructure {
                          step: 0,
                          setNewArray: true
                     })
-                }}>New Array</button>
+                }} disabled={this.state.animation}>New Array</button>
 
                 <button onClick={() => {
                     if (!this.state.animation) {
-                        this.setState({
-                            animation: window.setInterval(() => {
-                                if (this.state.step < this.state.actions.length - 1) {
-                                    this.setState({
-                                        step: this.state.step + 1
-                                    })   
-                                } else {
-                                    window.clearInterval(this.state.animation);
-                                    this.setState({
-                                        animation: false
-                                    })
-                                }
-                            }, 1200)
-                        })
+                        let animationStep = () => {
+                            this.setState({
+                                animation: window.setInterval(() => {
+                                    if (this.state.step < this.state.actions.length - 1) {
+                                        this.setState({
+                                            step: this.state.step + 1
+                                        })   
+                                    } else {
+                                        window.clearInterval(this.state.animation);
+                                        this.setState({
+                                            animation: false
+                                        })
+                                    }
+                                }, 1200)
+                            })
+                        }
+
+                        if (this.state.step === this.state.actions.length - 1) {
+                            this.setState({
+                                step: 0
+                            }, () => {
+                                this.clearViz();
+                                this.initViz();
+                                animationStep();
+                            })
+                        } else {
+                            animationStep();
+                        }
                     } else {
                         window.clearInterval(this.state.animation);
                         this.setState({
