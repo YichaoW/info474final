@@ -7,6 +7,7 @@ import {SelectionSort} from './Components/SelectionSort'
 import {Insertion} from './Components/Insertion'
 import {MergeSortBasic} from './Components/MergeSortBasic'
 import {MergeSort} from './Components/MergeSort'
+import {ComplexityAnalysis} from './Components/ComplexityAnalysis'
 
 
 function App() {
@@ -14,11 +15,12 @@ function App() {
     <div className="App">
       <Intro />
       <SortTwoArray />
-      <RuleOfThumb />
       <MergeSort />
       <Insertion />
       <SelectionSort />
       <MergeSortBasic />
+      <ComplexityAnalysis />
+      <RuleOfThumb />
     </div>
   );
 }
