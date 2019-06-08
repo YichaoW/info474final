@@ -57,7 +57,6 @@ export class SortTwoArray extends Component {
             setNewArrays: false,
             animation: false,
         }
-
     }
 
     getX(x) {
@@ -103,7 +102,6 @@ export class SortTwoArray extends Component {
             this.visulizeArray(1)
             this.visulizeArray(2)
         
-        
             this.setState({
                 setNewArrays: false
             })
@@ -142,11 +140,19 @@ export class SortTwoArray extends Component {
                         .attr("x2", this.getX(this.width)).attr("y2", this.getY(i * this.height / this.nRow))
         }
 
-        for (let i = 3; i <= this.nCol; i++) {
+        /*for (let i = 3; i <= this.nCol; i++) {
             this.svg.append("line").style("stroke", "gray")
                         .attr("x1", this.getX(i * this.width / this.nCol)).attr("y1", this.getY(0))
                         .attr("x2", this.getX(i * this.width / this.nCol)).attr("y2", this.getY(this.height))
-        }
+        }*/
+
+        this.svg.append("line").style("stroke", "gray")
+                        .attr("x1", this.getX(3 * this.width / this.nCol)).attr("y1", this.getY(0))
+                        .attr("x2", this.getX(3 * this.width / this.nCol)).attr("y2", this.getY(this.height))
+
+        this.svg.append("line").style("stroke", "gray")
+                        .attr("x1", this.getX(13 * this.width / this.nCol)).attr("y1", this.getY(0))
+                        .attr("x2", this.getX(13 * this.width / this.nCol)).attr("y2", this.getY(this.height))
 
         this.svg.append("line").style("stroke", "gray")
                         .attr("x1", this.getX(0)).attr("y1", this.getY(0))
@@ -354,7 +360,7 @@ export class SortTwoArray extends Component {
             display += "Sort Finished"
         }
 
-        let animationSign = "Animation"
+        let animationSign = "Run!"
         if (this.state.animation) {
             animationSign = "Stop"
         }
@@ -389,7 +395,7 @@ export class SortTwoArray extends Component {
                                 this.setState({
                                     step: this.state.step + 1
                                 })    
-                            }, 700)
+                            }, 800)
                         })
                     } else {
                         window.clearInterval(this.state.animation);
