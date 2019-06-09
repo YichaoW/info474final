@@ -1,5 +1,7 @@
 import React from 'react';
 import {GridStructure} from './GridStructure'
+import {Button, ButtonGroup} from 'react-bootstrap';
+
 
 export class MergeSort extends GridStructure {
     constructor(props) {
@@ -348,31 +350,32 @@ export class MergeSort extends GridStructure {
             actionDisplay = this.state.actions[cur].desc;
         }
 
-        let animationSign = "Run!"
+        let animationSign = "Play"
         if (this.state.animation) {
-            animationSign = "Stop!"
+            animationSign = "Pause"
         }
 
         return(
-            <div id="MergeSort">
+            <div id="MergeSort" className="animationBox">
                 <div>{actionDisplay}</div>
                 <div>
-                    <button onClick={() => {
+                    <ButtonGroup>
+                    <Button variant="secondary" onClick={() => {
                         if (this.state.step > 0) {
                             this.setState({
                                 step: this.state.step - 1
                             })
                         }
-                    }} disabled={this.state.step === 0 || this.state.animation}>Prev</button>
-                    <button onClick={() => {
+                    }} disabled={this.state.step === 0 || this.state.animation}>Prev</Button>
+                    <Button variant="secondary" onClick={() => {
                         if (this.state.step < this.state.actions.length - 1) {
                             this.setState({
                                 step: this.state.step + 1
                             })
                         }
-                    }} disabled={this.state.step === this.state.actions.length - 1 || this.state.animation}>Next</button>
+                    }} disabled={this.state.step === this.state.actions.length - 1 || this.state.animation}>Next</Button>
 
-                    <button onClick={() => {
+                    <Button variant="secondary" onClick={() => {
                         let newArray = this.generateRandomArray(8, 8);
 
                         let newAction = this.getAction(newArray);
@@ -382,9 +385,9 @@ export class MergeSort extends GridStructure {
                             step: 0,
                             setNewArray: true
                         })
-                    }} disabled={this.state.animation}>New Array</button>
+                    }} disabled={this.state.animation}>Generate New Array</Button>
 
-                    <button onClick={() => {
+                    <Button variant="secondary" onClick={() => {
                         if (!this.state.animation) {
                             let animationStep = () => {
                                 this.setState({
@@ -417,7 +420,8 @@ export class MergeSort extends GridStructure {
                                 animation: false
                             })
                         }
-                    }}>{animationSign}</button>
+                    }}>{animationSign}</Button>
+                    </ButtonGroup>
                 </div>
             </div>
         )

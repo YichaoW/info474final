@@ -4,13 +4,12 @@ import { Intro } from './Components/Intro'
 import { RuleOfThumb } from './Components/RuleOfThumb';
 import {ComplexityAnalysis} from './Components/ComplexityAnalysis'
 import {SortingAlgorithms} from './Components/SortingAlgorithms'
-import {SortDemo} from './Components/SortDemo'
 
 function App() {
   return (
     <div className="App">
+      <p id="main-title">Sorting Algorithm 101</p>
       <Intro />
-      <SortDemo />
       <SortingAlgorithms/>
       <ComplexityAnalysis />
       <RuleOfThumb />

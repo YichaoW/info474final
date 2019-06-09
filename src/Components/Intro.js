@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {SortDemo} from './SortDemo'
 
 export class Intro extends Component {
     constructor(props) {
@@ -34,6 +35,10 @@ export class Intro extends Component {
                 Through the interactive explorable explanation, you are going to master various sorting algorithm mechanisms 
                 and how to apply them to real world situations. 
                 </p>
+
+                <h3>Sorting Demo</h3>
+                <SortDemo />
+
             </div>
         )
     }

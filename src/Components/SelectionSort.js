@@ -1,5 +1,6 @@
 import React from 'react';
 import {GridStructure} from './GridStructure'
+import {Button, ButtonGroup} from 'react-bootstrap';
 
 
 export class SelectionSort extends GridStructure {
@@ -306,32 +307,32 @@ export class SelectionSort extends GridStructure {
             actionDisplay = this.state.actions[cur].desc;
         }
 
-        let run = "Run!"
+        let run = "Play"
         if (this.state.animation) {
-            run = "Stop!"
+            run = "Pause"
         }
 
         return(
-            <div id="selection">
+            <div id="selection" className="animationBox">
                 <div>{actionDisplay}</div>
-
-                <button onClick={() => {
+                <ButtonGroup>
+                <Button variant="secondary" onClick={() => {
                     if (this.state.step > 0) {
                         this.setState({
                             step: this.state.step - 1
                         })
                     }
-                }} disabled={this.state.step === 0 || this.state.animation}>Prev</button>
+                }} disabled={this.state.step === 0 || this.state.animation}>Prev</Button>
 
-                <button onClick={() => {
+                <Button variant="secondary" onClick={() => {
                     if (this.state.step < this.state.actions.length - 1) {
                         this.setState({
                             step: this.state.step + 1
                         })
                     }
-                }} disabled={this.state.step === this.state.actions.length - 1 || this.state.animation}>Next</button>
+                }} disabled={this.state.step === this.state.actions.length - 1 || this.state.animation}>Next</Button>
 
-                <button onClick={() => {
+                <Button variant="secondary" onClick={() => {
                     let newArray = this.generateRandomArray(5, 8);
                     let newAction = this.getAction(newArray);
                     this.setState({
@@ -340,9 +341,9 @@ export class SelectionSort extends GridStructure {
                          step: 0,
                          setNewArray: true
                     })
-                }} disabled={this.state.animation}>New Array</button>
+                }} disabled={this.state.animation}>Generate New Array</Button>
 
-                <button onClick={() => {
+                <Button variant="secondary" onClick={() => {
                     if (!this.state.animation) {
                         let animationStep = () => {
                             this.setState({
@@ -378,7 +379,8 @@ export class SelectionSort extends GridStructure {
                             animation: false
                         })
                     }
-                }}>{run}</button>
+                }}>{run}</Button>
+                </ButtonGroup>
             </div>
         )
     }

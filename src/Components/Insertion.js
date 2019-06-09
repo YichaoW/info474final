@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import * as d3 from "d3";
 import {GridStructure} from './GridStructure'
 import { thisExpression } from '@babel/types';
+import {Button, ButtonGroup} from 'react-bootstrap';
+
 
 export class Insertion extends GridStructure {
     constructor(props) {
@@ -545,30 +547,33 @@ export class Insertion extends GridStructure {
 
     render() {
 
-        let run = "Run!"
+        let run = "Play"
         if (this.state.animation) {
-            run = "Stop!"
+            run = "Pause"
         }
         return(
-            <div id="insertion">
+            <div id="insertion" className="animationBox">
                 <div>{this.state.actions[this.state.step].desc}</div>
-                <button onClick={() => {
+                
+                <ButtonGroup >
+
+                <Button variant="secondary" onClick={() => {
                         if (this.state.step > 0) {
                             this.setState({
                                 step: this.state.step - 1
                             })
                         }
-                }} disabled={this.state.step === 0 || this.state.animation}>Prev</button>
+                }} disabled={this.state.step === 0 || this.state.animation}>Prev</Button>
 
-                <button onClick={() => {
+                <Button variant="secondary" onClick={() => {
                     if (this.state.step < this.state.actions.length - 1) {
                         this.setState({
                             step: this.state.step + 1
                         })
                     }
-                }} disabled={this.state.step === this.state.actions.length - 1 || this.state.animation}>Next</button>
+                }} disabled={this.state.step === this.state.actions.length - 1 || this.state.animation}>Next</Button>
 
-                <button onClick={() => {
+                <Button variant="secondary" onClick={() => {
                     let newArray = this.generateRandomArray(5, 8);
                     let newAction = this.getAction(newArray);
                     this.setState({
@@ -577,9 +582,9 @@ export class Insertion extends GridStructure {
                          step: 0,
                          setNewArray: true
                     })
-                }} disabled={this.state.animation}>New Array</button>
+                }} disabled={this.state.animation}>Generate New Array</Button>
 
-                <button onClick={() => {
+                <Button variant="secondary" onClick={() => {
                     if (!this.state.animation) {
                         let animationStep = () => {
                             this.setState({
@@ -615,7 +620,8 @@ export class Insertion extends GridStructure {
                             animation: false
                         })
                     }
-                }}>{run}</button>
+                }}>{run}</Button>
+                </ButtonGroup>
             </div>
         )
     }
