@@ -34,14 +34,6 @@ export class Intro extends Component {
                 Through the interactive explorable explanation, you are going to master various sorting algorithm mechanisms 
                 and how to apply them to real world situations. 
                 </p>
-                <select className="intro-demo-select">
-                    <option value="numerical">Numerical</option>
-                    <option value="alphabetical">Alphabetical</option>
-                </select>
-                <select className="intro-demo-select">
-                    <option value="ascending">Ascending</option>
-                    <option value="descending">Descending</option>
-                </select>
             </div>
         )
     }
