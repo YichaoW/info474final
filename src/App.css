@@ -78,6 +78,16 @@ code {
 }
 
 #main-title {
-  font-size: 3rem;
+  font-size: 4rem;
   font-weight: bold;
+}
+
+#sub-title {
+  font-size:2rem;
+}
+#title-box {
+  color: white;
+  background-color: rgb(33,33,33);
+  padding: 10%;
+  margin-bottom: 5%;
 }
