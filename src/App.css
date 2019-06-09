@@ -31,3 +31,17 @@
     transform: rotate(360deg);
   }
 }
+
+.intro-container {
+  margin: 7em;
+  text-align: left;
+}
+
+.intro-text {
+  text-align: left;
+  font-size: 1.2em;
+}
+
+.intro-demo-select {
+  margin-right: 3em;
+}
