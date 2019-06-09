@@ -161,15 +161,9 @@ export class ComplexityAnalysis extends Component {
                 {plotImage}
 
                 <p className='intro-text'>
-                From above, we can see although the time complexity for merge sort is O(nlogn) which is faster than insertion and selection sort, it takes more space to run. 
-                </p>
-
-                <p className='intro-text'>
-                In addition to time and space complexity, sometimes we also care stability of the sorting algorithms. A sorting technique is stable if it does not change the order of elements with the same value. Insertion sort and merge sort are stable while selection sort is not.
-                </p>
-
-                <p className='intro-text'>
-                Therefore, we can choose the best algorithm to solve particular problem by evaluate these tradeoffs.  
+                 With the change of rumtime and memory usage as the length of the list increases, we can see, in general case, if your application is more
+                 optimized for speed, then MergeSort can be a strong candidate within all three algorithms. On the other hand, if your application can only
+                 be run in limit amount of space, you should consider selection sort or insertion sort to alleviate the space constraint.
                 </p>
             </div>
         )
