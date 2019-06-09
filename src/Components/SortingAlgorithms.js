@@ -58,7 +58,7 @@ export class SortingAlgorithms extends Component {
 
                 <div className='code-block'>
                 <code>
-                Step 1 − If it is the first element, it is already sorted. return 1;<br></br>
+                Step 1 − Put the first item into sorted list;<br></br>
                 Step 2 − Pick next element<br></br>
                 Step 3 − Compare with all elements in the sorted sub-list<br></br>
                 Step 4 − Shift all the elements in the sorted sub-list that is greater than the 
@@ -82,7 +82,7 @@ export class SortingAlgorithms extends Component {
                 </p>
                 <p className='intro-text'>
                 1: An array with only one element is considered as a sorted array. <br></br>
-	2: It is super easy to merge two sorted arrays into one sorted array.
+	            2: It is super easy to merge two sorted arrays into one sorted array.
 
                 </p>
                 <p className='intro-text'>
@@ -99,7 +99,7 @@ export class SortingAlgorithms extends Component {
                 <code>
                 Step 1 − if it is only one element in the list it is already sorted, return.<br></br>
                 Step 2 − divide the list recursively into two halves until it can no more be divided.<br></br>
-                Step 3 − merge the smaller lists into new list in sorted order.<br></br>
+                Step 3 − merge two sorted list into one and return it.<br></br>
                 </code>
                 </div>
                 <p className='intro-text'>

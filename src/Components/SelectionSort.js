@@ -312,9 +312,14 @@ export class SelectionSort extends GridStructure {
             run = "Pause"
         }
 
+        let step = this.state.actions[this.state.step].desc
+        if (this.state.step !== 0 && this.state.step !== this.state.actions.length - 1) {
+            step = "Step " + this.state.step + ": " + step;
+        }
+
         return(
             <div id="selection" className="animationBox">
-                <div>{actionDisplay}</div>
+                <div>{step}</div>
                 <ButtonGroup>
                 <Button variant="secondary" onClick={() => {
                     if (this.state.step > 0) {

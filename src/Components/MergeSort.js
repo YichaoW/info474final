@@ -355,9 +355,14 @@ export class MergeSort extends GridStructure {
             animationSign = "Pause"
         }
 
+        let step = this.state.actions[this.state.step].desc
+        if (this.state.step !== 0 && this.state.step !== this.state.actions.length - 1) {
+            step = "Step " + this.state.step + ": " + step;
+        }
+
         return(
             <div id="MergeSort" className="animationBox">
-                <div>{actionDisplay}</div>
+                <div>{step}</div>
                 <div>
                     <ButtonGroup>
                     <Button variant="secondary" onClick={() => {

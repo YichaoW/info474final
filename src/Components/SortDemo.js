@@ -52,7 +52,7 @@ export class SortDemo extends GridStructure {
                 nums.sort((a, b) => {
                     let num1 = a.num;
                     let num2 = b.num
-                    if (this.state.order === "desc") {
+                    if (this.state.order === "aesc") {
                         return(num1 - num2)
                     } else {
                         return(num2 - num1)

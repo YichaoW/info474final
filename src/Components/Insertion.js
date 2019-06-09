@@ -551,9 +551,14 @@ export class Insertion extends GridStructure {
         if (this.state.animation) {
             run = "Pause"
         }
+
+        let step = this.state.actions[this.state.step].desc
+        if (this.state.step !== 0 && this.state.step !== this.state.actions.length - 1) {
+            step = "Step " + this.state.step + ": " + step;
+        }
         return(
             <div id="insertion" className="animationBox">
-                <div>{this.state.actions[this.state.step].desc}</div>
+                <div>{step}</div>
                 
                 <ButtonGroup >
 

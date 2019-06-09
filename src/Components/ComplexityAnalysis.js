@@ -39,15 +39,25 @@ export class ComplexityAnalysis extends Component {
                 There are many sorting algorithms in programming world. However, there exist tradeoffs among the algorithms. In order to compare the performance of different algorithms, we should consider time complexity and space complexity. Time complexity denotes the amount of time taken by an algorithm to run based on the length of the input. Similarly, space complexity denotes the amount of space or memory taken by an algorithm to run based on the length of the input.
 
                 </p>
-
-                <p className='intro-text'>
-                Normally, we use Big O-notation to analyze algorithms. It defines an upper bound of an algorithm. The mathematic definition of Big O-notation is shown below:
-                </p>
+                <MathJax.Context input='tex'>
+                    <p className='intro-text'>
+                        Normally, we use Big O-notation to analyze algorithms. This concept determines which is the dominant term of a function. In order words, it asks which term in the function grows the fastest when n is huge.
+                        For example, if a function <MathJax.Node inline>{'f(n)=0.00001n^2+2n+100'}</MathJax.Node>, even the coefficent of <MathJax.Node inline>{'n^2'}</MathJax.Node> is small, it still grows the
+                        fastest when n goes to infinity, which means <MathJax.Node inline>{'O(f(n))=n^2'}</MathJax.Node>
+                        <br></br>
+                        <br></br>
+                        If you are interested in the rigorious definition, here it is:
+                    </p>
+                </MathJax.Context>
 
                 <div>
                     <MathJax.Context input='tex'>
                         <p>
-                            <MathJax.Node inline>{'f(n)=O(g(n))'}</MathJax.Node> if there exists a positive integer <MathJax.Node inline>{'n_0'}</MathJax.Node> and a positive constant <MathJax.Node inline>{'c'} </MathJax.Node> such that <MathJax.Node inline>{'f(n)\\leq cg(n) \\forall n \\geq n_0'}</MathJax.Node>.
+                            There is a positive number <MathJax.Node inline>{'n_0'}</MathJax.Node> and positive constant <MathJax.Node inline>{'c'}</MathJax.Node> such that, 
+                            for all positive number <MathJax.Node inline>{'n\\ge n_0'}</MathJax.Node> if there exists a positive 
+                            integer <MathJax.Node inline>{'n_0'}</MathJax.Node> and a positive constant <MathJax.Node inline>{'c'} </MathJax.Node> 
+                            such that, if for all positive integer <MathJax.Node inline>{'n'}</MathJax.Node> that is greater than <MathJax.Node inline>{'n_0'}</MathJax.Node>, then 
+                            <MathJax.Node inline>{'f(n)\\leq cg(n)'}</MathJax.Node>, we then say <MathJax.Node inline>{'O(f(n))=g(n)'}</MathJax.Node>.
                         </p>
                     </MathJax.Context>
                 </div>
@@ -56,7 +66,11 @@ export class ComplexityAnalysis extends Component {
 
                 <MathJax.Context input='tex'>
                 <p className='intro-text'>
-                    The time complexity (worst case) for selection sort is <MathJax.Node inline>{'O(n^2)'}</MathJax.Node> since it likely will go through the whole array again for every element in the array. However, the sorting can be done within the given array so that it does not require extra memory. Thus, the space complexity is <MathJax.Node inline>{'O(1)'}</MathJax.Node>.
+                    For each time to pick the minimum of the unsorted list, it is most likely to go through all of the items in the unsorted list. If you calculate arithemetic sum, the dominant term is <MathJax.Node inline>{'n^2'}</MathJax.Node>,
+                    which means, in general, the runtime complexity for selection sort is <MathJax.Node inline>{'O(n^2)'}</MathJax.Node> 
+                    <br></br>
+                    <br></br>
+                    And as for space complexity, the sorting can be done within the given array so that it does not require extra memory (see the animation). Thus, the space complexity is <MathJax.Node inline>{'O(1)'}</MathJax.Node>.
                 </p>
                 </MathJax.Context>
 
@@ -64,7 +78,11 @@ export class ComplexityAnalysis extends Component {
 
                 <MathJax.Context input='tex'>
                 <p className='intro-text'>
-                Similar to selection sort, time complexity for insertion sort is <MathJax.Node inline>{'O(n^2)'}</MathJax.Node> and space complexity is <MathJax.Node inline>{'O(1)'}</MathJax.Node>.
+                    Similar to selection sort, for each iteration of the insertion, an item is likely to search for the entire sorted list. This means the sum of the operation is similar wi
+                    th the sum in selection sort, which makes it has the time complexity <MathJax.Node inline>{'O(n^2)'}</MathJax.Node>.
+                    <br></br>
+                    <br></br>
+                    Similarily, as demonstrated by the animation, insertion sort does not need extra space, which means it has space complexity is <MathJax.Node inline>{'O(1)'}</MathJax.Node>.
                 </p>
                 </MathJax.Context>
 
@@ -72,7 +90,15 @@ export class ComplexityAnalysis extends Component {
 
                 <MathJax.Context input='tex'>
                 <p className='intro-text'>
-                Merge sort is a divide and conquer algorithm. Thus, its time complexity is <MathJax.Node inline>{'O(nlogn)'}</MathJax.Node> as merge sort always divides the array in two halves and take linear time to merge two halves. However, its space complexity become <MathJax.Node inline>{'O(n)'}</MathJax.Node> since it always need to store the elements somewhere else.
+                    The time complexity of the merge sort is quite hard to analyze since it involves recursion. However, if you want to do the quick estimation, there are some tricks: 
+                    for an array whose length is n, merge sort need to take <MathJax.Node inline>{'log_2(n)'}</MathJax.Node> levels, and for <MathJax.Node inline>{'i^{th}'}</MathJax.Node> level, 
+                    the length of array for processing is <MathJax.Node inline input = 'tex'>{'\\frac{n}{2^i}'}</MathJax.Node>. Since merging two arrays need to iterate both arrays, if you take the sum,
+                    the dominant term for merge sort is <MathJax.Node inline>{'O(nlogn)'}</MathJax.Node>.
+                    <br></br>
+                    <br></br>
+                    
+                    For each level, it will create a new array, pass it to the next level, and then destroy the array in the current level. 
+                    This means, as each level goes through, the is at most 1 new created array, which means ts space is just <MathJax.Node inline>{'O(n)'}</MathJax.Node>
                 </p>
                 </MathJax.Context>
 
@@ -83,9 +109,8 @@ export class ComplexityAnalysis extends Component {
                     <thead>
                         <tr>
                         <th>Sorting Algorithm</th>
-                        <th>Time Complexity (Average and Worst Case)</th>
-                        <th>Space Complexity</th>
-                        <th>Stablility</th>
+                        <th>General Time Complexity</th>
+                        <th>General Space Complexity</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -99,7 +124,6 @@ export class ComplexityAnalysis extends Component {
                         <MathJax.Context input='tex'>
                         <td><MathJax.Node inline>{'O(1)'}</MathJax.Node></td>
                         </MathJax.Context>
-                        <td>Unstable</td>
                         </tr>
 
                         <tr>
@@ -111,7 +135,6 @@ export class ComplexityAnalysis extends Component {
                         <MathJax.Context input='tex'>
                         <td><MathJax.Node inline>{'O(1)'}</MathJax.Node></td>
                         </MathJax.Context>
-                        <td>Stable</td>
                         </tr>
                         
                         <tr>
@@ -123,7 +146,6 @@ export class ComplexityAnalysis extends Component {
                         <MathJax.Context input='tex'>
                         <td><MathJax.Node inline>{'O(n)'}</MathJax.Node></td>
                         </MathJax.Context>
-                        <td>Stable</td>
                         </tr>
                     </tbody>
                 </Table>
