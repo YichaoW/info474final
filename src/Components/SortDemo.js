@@ -80,15 +80,15 @@ export class SortDemo extends GridStructure {
 
     render() {
         return(
-            <div id="SortDemo">
+            <div id="SortDemo" className="animationBox">
                 <select onChange = {(e) => {
                     this.setState({
                         order: e.target.value
                     })
                 }} value={this.state.order} selected={this.default}>
                     <option value="unsort">Unsort</option>
-                    <option value="desc">Ascending</option>
-                    <option value="aesc">Descending</option>
+                    <option value="aesc">Sort by Ascending</option>
+                    <option value="desc">Sort by Descending</option>
                 </select>
             </div>
         )

@@ -33,15 +33,51 @@
 }
 
 .intro-container {
-  margin: 7em;
+  margin-left: 20%;
+  margin-right: 20%;
+  margin-bottom: 5%;
   text-align: left;
 }
 
 .intro-text {
   text-align: left;
-  font-size: 1.2em;
+  font-size: 1em;
 }
 
 .intro-demo-select {
   margin-right: 3em;
+}
+
+h1 {
+  font-size: 2rem;
+  margin-bottom: 2%;
+}
+
+h2 {
+  font-size: 1.5rem;
+  margin-top: 5%;
+}
+
+h3 {
+  font-size:1.2rem;
+}
+.code-block {
+  margin: 5%;
+  padding: 1%;
+  background-color: rgb(238,238,238);
+  border: solid 1px rgb(214,214,214);
+}
+
+code {
+  font-size:0.8rem;
+  color: black;
+}
+
+.animationBox {
+  text-align: center;
+}
+
+#main-title {
+  font-size: 3rem;
+  font-weight: bold;
 }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import * as d3 from "d3";
 import {GridStructure} from './GridStructure'
+import {Button, ButtonGroup} from 'react-bootstrap';
 
 export class MergeSortBasic extends GridStructure {
     constructor(props) {
@@ -315,30 +316,32 @@ export class MergeSortBasic extends GridStructure {
             actionDisplay = this.state.actions[cur].desc;
         }
 
-        let animationSign = "Run!"
+        let animationSign = "Play"
         if (this.state.animation) {
-            animationSign = "Stop"
+            animationSign = "Pause"
         }
         return(
-            <div id="MergeBasic">
+            <div id="MergeBasic" className="animationBox">
                 <div>{actionDisplay}</div>
                 <div>
-                    <button onClick={() => {
+                <ButtonGroup >
+
+                    <Button variant="secondary" onClick={() => {
                         if (this.state.step > 0) {
                             this.setState({
                                 step: this.state.step - 1
                             })
                         }
-                    }} disabled={this.state.step === 0 || this.state.animation}>Prev</button>
-                    <button onClick={() => {
+                    }} disabled={this.state.step === 0 || this.state.animation}>Prev</Button>
+                    <Button variant="secondary" onClick={() => {
                         if (this.state.step < this.state.actions.length - 1) {
                             this.setState({
                                 step: this.state.step + 1
                             })
                         }
-                    }} disabled={this.state.step === this.state.actions.length - 1 || this.state.animation}>Next</button>
+                    }} disabled={this.state.step === this.state.actions.length - 1 || this.state.animation}>Next</Button>
 
-                    <button onClick={() => {
+                    <Button variant="secondary" onClick={() => {
                         let newArray1 = this.generateRandomArray(4, 5);
                         let newArray2 = this.generateRandomArray(4, 5);
                         newArray1.sort((a, b) => {
@@ -357,9 +360,9 @@ export class MergeSortBasic extends GridStructure {
                             step: 0,
                             setNewArray: true
                         })
-                    }} disabled={this.state.animation}>New Array</button>
+                    }} disabled={this.state.animation}>Generate New Array</Button>
 
-                    <button onClick={() => {
+                    <Button variant="secondary" onClick={() => {
                         if (!this.state.animation) {
                             let animationStep = () => {
                                 this.setState({
@@ -395,7 +398,9 @@ export class MergeSortBasic extends GridStructure {
                             })
                             window.clearInterval(this.state.animation);
                         }
-                    }}>{animationSign}</button>
+                    }}>{animationSign}</Button>
+                                    </ButtonGroup>
+
                 </div>
             </div>
         )
